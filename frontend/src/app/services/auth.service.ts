@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { GoogleAuthProvider,getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { Auth,signInWithPopup, User } from '@angular/fire/auth';
+import { Auth,connectAuthEmulator,signInWithPopup } from '@angular/fire/auth';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
-import { AuthInfo } from 'src/models/auth/authInfo';
+import { AuthInfo } from '../models/auth/authInfo';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificationsService } from '../modules/notifications/services/notifications.service';
 import { AuthModalComponent } from '../components/auth-modal/auth-modal.component';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { User } from '../models/auth/user';
 
 @Injectable({
   providedIn: 'root'
@@ -36,9 +38,13 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private notificationService: NotificationsService,
-    private afAuth: Auth
-  ) { 
-    this.googleAuthProvider = new GoogleAuthProvider();
+    private afAuth: Auth 
+  ) {
+    if(!environment.production){
+      const auth = getAuth();
+      connectAuthEmulator(auth, "http://localhost:9099");
+    }
+    this.googleAuthProvider = new GoogleAuthProvider();   
     let authInfo: AuthInfo|null = null;
     this.afAuth.onAuthStateChanged(async (user) => {
       let token = null;
@@ -62,14 +68,14 @@ export class AuthService {
         let auth = this._authInfo.value;
         auth.token = authInfo?.token;
         auth.email = authInfo?.email;
-        user = auth?.user ? user : null;
+        let appUser: User|null = auth?.user ? auth.user : null;
         let isLoggedIn = false;
         if(authInfo?.token && authInfo?.email){
           isLoggedIn = true;
         }
         this._authInfo.next(auth);
         this._isLoggedIn.next(isLoggedIn);
-        this._loggedInUser.next(isLoggedIn && auth.user ? user : null);
+        this._loggedInUser.next(isLoggedIn ? appUser : null);
       });
     });
   }
