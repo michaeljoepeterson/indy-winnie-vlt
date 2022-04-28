@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  fbConfig:{
+    apiKey: "AIzaSyAadUlhkLWuUkq4V6cYY0FgryVvzGqoDHg",
+    authDomain: "indy-winnie.firebaseapp.com",
+    projectId: "indy-winnie",
+    storageBucket: "indy-winnie.appspot.com",
+    messagingSenderId: "832550949381",
+    appId: "1:832550949381:web:5e063ebabfc1b2dbd6426c",
+    measurementId: "G-3EZ0VE7E6Q"
+  }
 };
 
 /*
