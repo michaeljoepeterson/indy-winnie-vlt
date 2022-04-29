@@ -6,10 +6,12 @@ const bodyParser = require('body-parser');
 const { cors } = require("./middleware/cors");
 const {fb} = require('./config');
 const { getFirestore } = require("firebase-admin/firestore");
+const { router: mainRouter } = require('./routers/main-router');
 const admin = require('firebase-admin');
 
 app.use(bodyParser.json());
 app.use(cors);
+app.use('/api',mainRouter);
 
 app.get('/test', async (req,res,next) => {
     try{
