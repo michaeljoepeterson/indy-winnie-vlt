@@ -6,7 +6,8 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "only-functions": "firebase emulators:start --only functions"
   },
   "engines": {
     "node": "16"
@@ -16,6 +17,7 @@
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "firebase": "^9.6.11",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.0"
   },
