@@ -1,9 +1,10 @@
 const express = require('express');
 const { userDb } = require('../db/user-db');
+const { checkAuth } = require('../middleware/checkAuth');
 const { User } = require('../models/user');
 const router = express.Router();
 
-router.post('/check', async (req, res, next) => {
+router.post('/check', checkAuth, async (req, res, next) => {
     let {user} = req.body;
     let newUser = new User(user);
     try{

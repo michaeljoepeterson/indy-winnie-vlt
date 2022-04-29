@@ -16,6 +16,21 @@ class UserDb extends BaseDb{
     async checkUser(user){
         try{
             let {email} = user;
+            let foundUser = await this.findUser(email);
+            if(foundUser){
+                return foundUser;
+            }
+
+            return this.createUser(user);
+        }
+        catch(e){
+            console.error(e);
+            throw e;
+        }
+    }
+
+    async findUser(email){
+        try{
             let collection = this.getCollectionRef();
             let query = collection.where("email", "==", email);
             let results = await query.get();
@@ -23,7 +38,7 @@ class UserDb extends BaseDb{
                 return results.docs[0].data();
             }
 
-            return this.createUser(user);
+            return null;
         }
         catch(e){
             console.error(e);
