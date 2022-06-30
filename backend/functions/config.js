@@ -1,6 +1,6 @@
 exports.PORT = process.env.PORT || 8080;
 exports.DOMAINS = process.env.DOMAINS;
-const {initializeApp} = require('firebase-admin/app');
+//const {initializeApp} = require('firebase-admin/app');
 const admin = require('firebase-admin');
 
 let serviceAccount = {
@@ -16,16 +16,16 @@ let serviceAccount = {
     "client_x509_cert_url": process.env.client_x509_cert_url ? process.env.client_x509_cert_url : 'test'
 };
 
-
+/*
 exports.fb = initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.db_url
 });
+*/
 
 
-/*
 exports.fb = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://indy-winnie.firebaseio.com'
 });
-*/
+

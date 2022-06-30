@@ -73,6 +73,7 @@ export class AuthService {
         if(authInfo?.token && authInfo?.email){
           isLoggedIn = true;
         }
+        //console.log(auth);
         this._authInfo.next(auth);
         this._isLoggedIn.next(isLoggedIn);
         this._loggedInUser.next(isLoggedIn ? appUser : null);

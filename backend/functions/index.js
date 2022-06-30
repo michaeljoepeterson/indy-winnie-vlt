@@ -4,37 +4,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const { cors } = require("./middleware/cors");
-const {fb} = require('./config');
-const { getFirestore } = require("firebase-admin/firestore");
-const admin = require('firebase-admin');
+const { router: mainRouter } = require('./routers/main-router');
 
 app.use(bodyParser.json());
 app.use(cors);
-
-app.get('/test', async (req,res,next) => {
-    try{
-        console.log('test endpoint');
-        let db = getFirestore(fb);
-        let cols = await db.listCollections();
-        console.log('collections',cols);
-        let collection = db.collection('test-collection');
-        let vals = await collection.get();
-        let docs = vals.docs;
-        for (let doc of docs) {
-            console.log(`Document found at path: ${doc.ref.path}`);
-        }
-        return res.json({
-            message: fb.name,
-            test:process.env?.TESTVAL
-        });
-    }
-    catch(e){
-        console.log(e);
-        return res.json({
-            error:'error'
-        })
-    }
-});
+app.use('/api',mainRouter);
 
 app.use((req,res,next) => {
     res.status(500);
